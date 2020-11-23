@@ -1,2 +1,5 @@
+-Improve info in help
+-Add a delete profile command
+-Add an import profile command
 -Improve the command parser
 -Create GUI
