@@ -97,6 +97,15 @@ def interpret_cmd(command):
             print("Service not found, be sure to type case-sensitively")
 
 
+    elif "getuser " in command:
+        name = command.replace('getuser ', '')
+        if name in services:
+            pyperclip.copy(services[name].get_username())
+            print("Username copied to clipboard")
+        else:
+            print("Service not found, be sure to type case-sensitively")
+
+
     elif "getpass " in command:
         name = command.replace('getpass ', '')
         if name in services:
