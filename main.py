@@ -56,7 +56,7 @@ def interpret_cmd(command):
                 password += generate_password()
             elif len(split) == 3:
                 #This just means there's no note to process, but a password was given
-                password += split[3]
+                password += split[2]
             elif len(split) > 3:
                 #Now we have a note to process, but notes are never just one line
                 for i in range(3, len(split)):
