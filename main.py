@@ -1,4 +1,5 @@
 from modules.routines import *
+from modules.password_generator import generate_password
 from os import system, name
 import pyperclip
 
@@ -54,12 +55,19 @@ def interpret_cmd(command):
     elif "quickadd " in command:
         parsed_command = command.replace("quickadd ", "")
         split = parsed_command.split(' ')
-
         name = split[0]
         username = split[1]
-        password = split[2]
-        note = ""
-        if len(split) > 3:
+        password = ''
+        note = ''
+
+        if len(split) == 2:
+            #This means the user expects the program to automatically generate a password
+            password += generate_password()
+        elif len(split) == 3:
+            #This just means there's no note to process, but a password was given
+            password += split[3]
+        elif len(split) > 3:
+            #Now we have a note to process, but notes are never just one line
             for i in range(3, len(split)):
                 note += split[i] + " "
 
