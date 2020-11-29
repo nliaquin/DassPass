@@ -132,6 +132,7 @@ def interpret_cmd(command):
 
 
     elif command == "exit":
+        clear()
         exit()
 
 
