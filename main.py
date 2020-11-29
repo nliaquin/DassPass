@@ -177,6 +177,7 @@ def interpret_cmd(command):
                 note += args[x] + " "
 
             services[name].set_note(note)
+            save_to_file(services)
             print(f"Note set in {name}")
         else:
             print("Service specified does not exist")
