@@ -40,19 +40,7 @@ def clear():
 def interpret_cmd(command):
     if command == "list":
         list_services()
-    elif command == "add":
-        name = input("Enter name of service: ")
-        username = input("Enter username: ")
-        password = input("Enter password: ")
-        note = input("(Optional) Enter note: ")
-
-        if name != "":
-            add_service(services, name, username, password, note)
-            service_names.append(name)
-            print(name, "added")
-        else:
-            print("Service must have a name")
-    elif "quickadd " in command:
+    elif "add " in command:
         parsed_command = command.replace("quickadd ", "")
         split = parsed_command.split(' ')
         name = split[0]
@@ -119,8 +107,7 @@ def interpret_cmd(command):
     elif command == "clear":
         clear()
     elif command == "help":
-        print("add - adds a new service or edits an existing one the slow way\n"
-              "quickadd name username password note - if you want no note, just leave the arg blank\n"
+        print("add 'name' 'username' 'password' 'note' - if you want no note, just leave the arg blank, and notes can also include spaces\n"
               "remove 'service name' - removes a service given its name\n"
               "get 'service name' [--option] - gets the details of a service given its name.\n"
               "     available options: --pvt - gets the details with the user and pass censored.\n"
