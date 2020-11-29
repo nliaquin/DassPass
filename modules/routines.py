@@ -19,3 +19,7 @@ def add_service(services, name, username, password, note):
 def remove_service(services, name):
     services.pop(name)
     file_io.write_file(services)
+
+
+def save_to_file(services):
+    file_io.write_file(services)
