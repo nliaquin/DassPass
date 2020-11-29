@@ -54,11 +54,13 @@ def interpret_cmd(command):
             if len(split) == 2:
                 #This means the user expects the program to automatically generate a password
                 password += generate_password()
+            #This could really use some improvements...
             elif len(split) == 3:
                 #This just means there's no note to process, but a password was given
                 password += split[2]
             elif len(split) > 3:
                 #Now we have a note to process, but notes are never just one line
+                password += split[2]
                 for i in range(3, len(split)):
                     note += split[i] + " "
 
