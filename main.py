@@ -2,23 +2,29 @@ from modules.routines import *
 from os import system, name
 import pyperclip
 
-
 services = {}
-
+service_names = []
 
 def list_services():
+    global service_names
+
     if not services:
         print("No services added")
     else:
-        service_list = []
-        for key in services:
-            service_list.append(services[key].get_name())
+        if not service_names:
+            populate_service_names()
 
-        service_list = sorted(service_list)
+        service_names = sorted(service_names)
         count = 0
-        for service in service_list:
+        for service in service_names:
             count += 1
             print(f"{count:02d}", service)
+
+
+def populate_service_names():
+    service_names.clear()
+    for key in services:
+        service_names.append(services[key].get_name())
 
 
 def clear():
@@ -33,8 +39,6 @@ def clear():
 def interpret_cmd(command):
     if command == "list":
         list_services()
-
-
     elif command == "add":
         name = input("Enter name of service: ")
         username = input("Enter username: ")
@@ -43,11 +47,10 @@ def interpret_cmd(command):
 
         if name != "":
             add_service(services, name, username, password, note)
+            service_names.append(name)
             print(name, "added")
         else:
             print("Service must have a name")
-
-
     elif "quickadd " in command:
         parsed_command = command.replace("quickadd ", "")
         split = parsed_command.split(' ')
@@ -62,20 +65,18 @@ def interpret_cmd(command):
 
         if name != "" and password != "":
             add_service(services, name, username, password, note)
+            service_names.append(name)
             print(name, "added")
         else:
             print("Services require a username and password")
-
-
     elif "remove " in command:
         name = command.replace('remove ', '')
         if name in services:
             remove_service(services, name)
+            service_names.remove(name)
             print(name, "removed")
         else:
             print("Service not found, be sure to type case-sensitively")
-
-
     elif "get " in command and " --pvt" in command:
         command = command.replace('get ', '')
         name = command.replace(' --pvt', '')
@@ -85,8 +86,6 @@ def interpret_cmd(command):
             print("Note:", services[name].get_note())
         else:
             print("Service not found, be sure to type case-sensitively")
-
-
     elif "get " in command:
         name = command.replace('get ', '')
         if name in services:
@@ -95,8 +94,6 @@ def interpret_cmd(command):
             print("Note:", services[name].get_note())
         else:
             print("Service not found, be sure to type case-sensitively")
-
-
     elif "getuser " in command:
         name = command.replace('getuser ', '')
         if name in services:
@@ -104,8 +101,6 @@ def interpret_cmd(command):
             print("Username copied to clipboard")
         else:
             print("Service not found, be sure to type case-sensitively")
-
-
     elif "getpass " in command:
         name = command.replace('getpass ', '')
         if name in services:
@@ -113,12 +108,8 @@ def interpret_cmd(command):
             print("Password copied to clipboard")
         else:
             print("Service not found, be sure to type case-sensitively")
-
-
     elif command == "clear":
         clear()
-
-
     elif command == "help":
         print("add - adds a new service or edits an existing one the slow way\n"
               "quickadd name username password note - if you want no note, just leave the arg blank\n"
@@ -129,16 +120,11 @@ def interpret_cmd(command):
               "getpass 'service name' - copies the desired password to the clipboard\n"
               "clear - clears this terminal window"
               "exit - quits the program")
-
-
     elif command == "exit":
         clear()
         exit()
-
-
     else:
         print("Unrecognized Command...")
-
     print()
 
 
